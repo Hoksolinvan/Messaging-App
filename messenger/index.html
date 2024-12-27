@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Messaging App</title>
+  </head>
+  <body>
+    <style>
+  body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        background-color: rgb(242, 242, 242);
+        display: flex;
+        flex-direction: column;
+      }
+
+      #container {
+        display: flex;
+        flex-direction: column;
+        height: 100vh; /* Full viewport height */
+      }
+
+      #messages {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        flex: 1; /* Fills the remaining space */
+        overflow-y: auto; /* Allows scrolling when messages overflow */
+      }
+
+      #messages > li {
+        box-sizing: border-box;
+        height: 50px;
+        padding: 10px;
+      }
+
+      #messages > li:nth-child(odd) {
+
+        background-color:#D3D3D3;
+
+
+      }
+
+      #input-form {
+        display: flex;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        background-color: white;
+        padding: 10px;
+        box-sizing: border-box; /* Ensures padding is included in width/height */
+      }
+
+      #input-1-style {
+        flex: 1; /* Fills the available space in the form */
+        padding: 5px;
+        margin-right: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+
+      #input-form button {
+        padding: 5px 10px;
+        border: none;
+        background-color: #007bff;
+        color: white;
+        border-radius: 4px;
+        
+      }
+
+      #input-form button:hover {
+        background-color: #0056b3;
+        cursor: pointer;
+      }
+    </style>
+
+
+    <div id="container">
+
+    <ul id="messages">
+      
+    </ul>
+
+
+
+
+
+
+
+    <form id="input-form" target=" ">
+      <input id="input-1-style" type="text" autocomplete="off">
+      <button id="button-1">Submit</button>
+    </form>
+
+  </div>
+    
+
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const socket = io();
+
+    const form = document.getElementById('input-form');
+    const button = document.getElementById('button-1');
+    const input= document.getElementById('input-1-style');
+
+    form.addEventListener('submit', (event)=>{
+
+      event.preventDefault();
+      if(input.value.trim() !== ""){
+        socket.emit('messages',input.value);
+        input.value="";
+       
+      }
+    
+
+    });
+
+
+    socket.on('messages',(data,socket_id) => {
+
+      const list_element = document.createElement('li');
+      list_element.innerHTML = `<b>${data}</b>`;
+      document.getElementById('messages').appendChild(list_element);
+
+
+    });
+
+
+  </script>
+
+  </body>
+</html>

@@ -20,7 +20,7 @@ io.on('connection',(socket) =>{
     socket.on('messages',(arg) =>{
         console.log(arg);
 
-        io.emit('messages',arg);
+        io.emit('messages',arg,socket.id);
     });
 
     

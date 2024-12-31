@@ -4,9 +4,9 @@ const PORT = process.env.PORT || 3012;
 const {join} = require('node:path');
 const {Server} = require('socket.io');
 
-const app = express();
-const server = createServer(app);
-const io = new Server(server);
+const app:any = express();
+const server:any = createServer(app);
+const io:any = new Server(server);
 
 app.get('/',(req,res)=>{
     res.sendFile(join(__dirname,'index.html'));
